@@ -1,0 +1,344 @@
+USE [master]
+GO
+/****** Object:  Database [Biblioteca]    Script Date: 03/03/2018 01:54:39 p.m. ******/
+CREATE DATABASE [Biblioteca]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'Biblioteca', FILENAME = N'C:\Program Files (x86)\Microsoft SQL Server\MSSQL11.SQLEXPRESS\MSSQL\DATA\Biblioteca.mdf' , SIZE = 4160KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+ LOG ON 
+( NAME = N'Biblioteca_log', FILENAME = N'C:\Program Files (x86)\Microsoft SQL Server\MSSQL11.SQLEXPRESS\MSSQL\DATA\Biblioteca_log.ldf' , SIZE = 1040KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+GO
+ALTER DATABASE [Biblioteca] SET COMPATIBILITY_LEVEL = 110
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [Biblioteca].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [Biblioteca] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [Biblioteca] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [Biblioteca] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [Biblioteca] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [Biblioteca] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [Biblioteca] SET AUTO_CLOSE ON 
+GO
+ALTER DATABASE [Biblioteca] SET AUTO_CREATE_STATISTICS ON 
+GO
+ALTER DATABASE [Biblioteca] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [Biblioteca] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [Biblioteca] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [Biblioteca] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [Biblioteca] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [Biblioteca] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [Biblioteca] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [Biblioteca] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [Biblioteca] SET  ENABLE_BROKER 
+GO
+ALTER DATABASE [Biblioteca] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [Biblioteca] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [Biblioteca] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [Biblioteca] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [Biblioteca] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [Biblioteca] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [Biblioteca] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [Biblioteca] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [Biblioteca] SET  MULTI_USER 
+GO
+ALTER DATABASE [Biblioteca] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [Biblioteca] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [Biblioteca] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [Biblioteca] SET TARGET_RECOVERY_TIME = 0 SECONDS 
+GO
+USE [Biblioteca]
+GO
+/****** Object:  Table [dbo].[Autor]    Script Date: 03/03/2018 01:54:39 p.m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Autor](
+	[claveAutor] [int] NOT NULL,
+	[nombreAutor] [varchar](50) NOT NULL,
+	[apellidoPaternoAutor] [varchar](50) NOT NULL,
+	[apellidoMaternoAutor] [varchar](50) NOT NULL,
+	[paisAutor] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Autor] PRIMARY KEY CLUSTERED 
+(
+	[claveAutor] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Editorial]    Script Date: 03/03/2018 01:54:39 p.m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Editorial](
+	[claveEditorial] [int] NOT NULL,
+	[nombreEditorial] [varchar](50) NOT NULL,
+	[calleEditorial] [varchar](50) NOT NULL,
+	[coloniaEditorial] [varchar](50) NOT NULL,
+	[municipioEditorial] [varchar](50) NOT NULL,
+	[pais] [varchar](50) NOT NULL,
+	[añoEditorial] [date] NOT NULL,
+ CONSTRAINT [PK_Editorial] PRIMARY KEY CLUSTERED 
+(
+	[claveEditorial] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Ficha]    Script Date: 03/03/2018 01:54:39 p.m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Ficha](
+	[claveFicha] [int] NOT NULL,
+	[nombreCliente] [varchar](50) NOT NULL,
+	[apellidoPCliente] [varchar](50) NOT NULL,
+	[apellidoMCliente] [varchar](50) NOT NULL,
+	[nombreTitulo] [varchar](50) NOT NULL,
+	[nombreAutor] [varchar](50) NOT NULL,
+	[fechaSalida] [date] NOT NULL,
+	[fechaEntrega] [date] NOT NULL,
+	[diasRetrasoEntrega] [int] NOT NULL,
+	[total] [int] NOT NULL,
+	[condicionSalida] [text] NOT NULL,
+	[condicionEntrega] [text] NOT NULL,
+ CONSTRAINT [PK_Ficha] PRIMARY KEY CLUSTERED 
+(
+	[claveFicha] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Prestamo]    Script Date: 03/03/2018 01:54:39 p.m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Prestamo](
+	[clavePrestamo] [int] NOT NULL,
+	[tituloPrestamo] [varchar](50) NOT NULL,
+	[fechaPrestamo] [date] NOT NULL,
+	[condicion] [text] NOT NULL,
+	[diasPrestamo] [int] NOT NULL,
+	[pagoPrestamo]  AS ([diasPrestamo]*(5)),
+	[diasRetraso] [int] NULL,
+	[pagoRetraso]  AS ([diasRetraso]*(5)),
+ CONSTRAINT [PK_Prestamo] PRIMARY KEY CLUSTERED 
+(
+	[clavePrestamo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Socio]    Script Date: 03/03/2018 01:54:39 p.m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Socio](
+	[codigo] [int] NOT NULL,
+	[nombre] [varchar](50) NOT NULL,
+	[apellidoPaterno] [varchar](50) NOT NULL,
+	[apellidoMaterno] [varchar](50) NOT NULL,
+	[calle] [varchar](50) NOT NULL,
+	[colonia] [varchar](50) NOT NULL,
+	[municipio] [varchar](50) NOT NULL,
+	[estado] [varchar](50) NOT NULL,
+	[lada] [int] NOT NULL,
+	[telefonoCasa] [bigint] NOT NULL,
+	[telefonoCelular] [bigint] NULL,
+	[fechaMiembro] [date] NOT NULL,
+ CONSTRAINT [PK_Socio] PRIMARY KEY CLUSTERED 
+(
+	[codigo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Titulo]    Script Date: 03/03/2018 01:54:39 p.m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Titulo](
+	[codigoTitulo] [int] NOT NULL,
+	[titulo] [varchar](50) NOT NULL,
+	[añoEscrito] [date] NOT NULL,
+	[añoEditado] [date] NOT NULL,
+	[ISBN] [bigint] NULL,
+	[estado] [text] NOT NULL,
+ CONSTRAINT [PK_Titulo] PRIMARY KEY CLUSTERED 
+(
+	[codigoTitulo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+SET ANSI_PADDING ON
+
+GO
+/****** Object:  Index [IX_Autor_nombreAutor]    Script Date: 03/03/2018 01:54:39 p.m. ******/
+CREATE NONCLUSTERED INDEX [IX_Autor_nombreAutor] ON [dbo].[Autor]
+(
+	[nombreAutor] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+
+GO
+/****** Object:  Index [IX_Editorial_nombreEditorial]    Script Date: 03/03/2018 01:54:39 p.m. ******/
+CREATE NONCLUSTERED INDEX [IX_Editorial_nombreEditorial] ON [dbo].[Editorial]
+(
+	[nombreEditorial] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+
+GO
+/****** Object:  Index [IX_Ficha_apellidoMCliente]    Script Date: 03/03/2018 01:54:39 p.m. ******/
+CREATE NONCLUSTERED INDEX [IX_Ficha_apellidoMCliente] ON [dbo].[Ficha]
+(
+	[apellidoMCliente] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+
+GO
+/****** Object:  Index [IX_Ficha_apellidoPCliente]    Script Date: 03/03/2018 01:54:39 p.m. ******/
+CREATE NONCLUSTERED INDEX [IX_Ficha_apellidoPCliente] ON [dbo].[Ficha]
+(
+	[apellidoPCliente] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+
+GO
+/****** Object:  Index [IX_Ficha_nombreCliente]    Script Date: 03/03/2018 01:54:39 p.m. ******/
+CREATE NONCLUSTERED INDEX [IX_Ficha_nombreCliente] ON [dbo].[Ficha]
+(
+	[nombreCliente] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+
+GO
+/****** Object:  Index [IX_Table_5_tituloPrestamo]    Script Date: 03/03/2018 01:54:39 p.m. ******/
+CREATE NONCLUSTERED INDEX [IX_Table_5_tituloPrestamo] ON [dbo].[Prestamo]
+(
+	[tituloPrestamo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+
+GO
+/****** Object:  Index [IX_Socio_apellidoMaterno]    Script Date: 03/03/2018 01:54:39 p.m. ******/
+CREATE NONCLUSTERED INDEX [IX_Socio_apellidoMaterno] ON [dbo].[Socio]
+(
+	[apellidoMaterno] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+
+GO
+/****** Object:  Index [IX_Table_1_apellidoPaterno]    Script Date: 03/03/2018 01:54:39 p.m. ******/
+CREATE NONCLUSTERED INDEX [IX_Table_1_apellidoPaterno] ON [dbo].[Socio]
+(
+	[apellidoPaterno] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+
+GO
+/****** Object:  Index [IX_Table_2_titulo]    Script Date: 03/03/2018 01:54:39 p.m. ******/
+CREATE NONCLUSTERED INDEX [IX_Table_2_titulo] ON [dbo].[Titulo]
+(
+	[titulo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Autor]  WITH CHECK ADD  CONSTRAINT [FK_Autor_Titulo] FOREIGN KEY([claveAutor])
+REFERENCES [dbo].[Titulo] ([codigoTitulo])
+GO
+ALTER TABLE [dbo].[Autor] CHECK CONSTRAINT [FK_Autor_Titulo]
+GO
+ALTER TABLE [dbo].[Editorial]  WITH CHECK ADD  CONSTRAINT [FK_Editorial_Autor] FOREIGN KEY([claveEditorial])
+REFERENCES [dbo].[Autor] ([claveAutor])
+GO
+ALTER TABLE [dbo].[Editorial] CHECK CONSTRAINT [FK_Editorial_Autor]
+GO
+ALTER TABLE [dbo].[Ficha]  WITH CHECK ADD  CONSTRAINT [FK_Ficha_Prestamo_clavePrestamo] FOREIGN KEY([claveFicha])
+REFERENCES [dbo].[Prestamo] ([clavePrestamo])
+GO
+ALTER TABLE [dbo].[Ficha] CHECK CONSTRAINT [FK_Ficha_Prestamo_clavePrestamo]
+GO
+ALTER TABLE [dbo].[Ficha]  WITH CHECK ADD  CONSTRAINT [FK_Ficha_Socio] FOREIGN KEY([claveFicha])
+REFERENCES [dbo].[Socio] ([codigo])
+GO
+ALTER TABLE [dbo].[Ficha] CHECK CONSTRAINT [FK_Ficha_Socio]
+GO
+ALTER TABLE [dbo].[Prestamo]  WITH CHECK ADD  CONSTRAINT [FK_Prestamo_Socio] FOREIGN KEY([clavePrestamo])
+REFERENCES [dbo].[Socio] ([codigo])
+GO
+ALTER TABLE [dbo].[Prestamo] CHECK CONSTRAINT [FK_Prestamo_Socio]
+GO
+ALTER TABLE [dbo].[Titulo]  WITH CHECK ADD  CONSTRAINT [FK_Titulo_Socio] FOREIGN KEY([codigoTitulo])
+REFERENCES [dbo].[Socio] ([codigo])
+GO
+ALTER TABLE [dbo].[Titulo] CHECK CONSTRAINT [FK_Titulo_Socio]
+GO
+USE [master]
+GO
+ALTER DATABASE [Biblioteca] SET  READ_WRITE 
+GO
